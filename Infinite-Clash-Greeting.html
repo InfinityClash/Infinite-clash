@@ -1079,13 +1079,6 @@ window.IC_BUILD_TEAM_A = function(){
 
   window.IC_STATE.screen="teamA";
 
-  /*
-    Only generate a random team when entering Team A
-    for the first time.
-
-    Re-rendering after a change must NOT reroll
-    the other fighters.
-  */
   if(!window.IC_STATE.teamA.length)
     window.IC_STATE.teamA=window.IC_RANDOM_TEAM();
 
@@ -1118,14 +1111,6 @@ window.IC_BUILD_TEAM_A = function(){
 
 window.IC_FIGHTER_CARD = function(name,team,index){
 
-  /*
-    CHANGE usage is tracked by SLOT, not by fighter name.
-
-    This means:
-    - each slot can be changed once
-    - the fighter itself is not globally locked
-    - the replacement does not consume another slot's change
-  */
   const slotKey=team+":"+index;
   const used=!!window.IC_STATE.changesUsed[slotKey];
 
@@ -1177,10 +1162,6 @@ window.IC_CHANGE_FIGHTER = function(team,index){
 
   const slotKey=team+":"+index;
 
-  /*
-    The restriction belongs to the selected slot,
-    NOT to the fighter occupying that slot.
-  */
   if(window.IC_STATE.changesUsed[slotKey]) return;
 
   const forbidden=[
@@ -1208,12 +1189,6 @@ window.IC_CHANGE_FIGHTER = function(team,index){
 
   arr[index]=replacement;
 
-  /*
-    Only this slot is now used.
-
-    The old fighter and replacement fighter remain
-    completely normal roster members.
-  */
   window.IC_STATE.changesUsed[slotKey]=true;
 
   if(team==="A")
@@ -1448,7 +1423,6 @@ Only the JSON array.
 
 `;
 
-
   const result=
     await tavo.generate(
       prompt,
@@ -1481,11 +1455,6 @@ Only the JSON array.
 
   }catch(error){
 
-    /*
-      Try to recover a JSON array if the model
-      included a small amount of extra text.
-    */
-
     const match=String(raw).match(/\[[\s\S]*\]/);
 
     if(match){
@@ -1504,11 +1473,6 @@ Only the JSON array.
     throw new Error(
       "The opposing AI did not return a valid team."
     );
-
-  /*
-    Validate that every selected fighter actually exists
-    in the roster and is not already on Team A.
-  */
 
   const validRoster=new Set(window.IC_FIGHTERS);
 
@@ -2109,7 +2073,7 @@ When two abilities conflict, reason through the actual established mechanics ins
 CHAPTER TITLE RULES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Use cinematic chapter titles sparingly.
+Use cinematic chapter titles SPARINGLY and RANDOMLY according to the actual events of the battle.
 
 Do NOT create a title every paragraph.
 
@@ -2117,25 +2081,71 @@ Do NOT use a fixed sequence.
 
 Do NOT use a fixed number of chapters.
 
-A chapter title should appear only when a meaningful narrative beat occurs.
+Do NOT force a title at regular intervals.
 
-Examples of meaningful beats:
+A chapter title should appear ONLY when a meaningful narrative beat actually occurs.
+
+Possible meaningful moments include:
 - first major clash
+- sudden battlefield change
 - first blood
 - unexpected counter
 - major revelation
 - major transformation
+- powerful ability being unleashed
 - battlefield reversal
-- important fighter falls
-- captain makes a decisive move
-- overwhelming ability is revealed
-- impossible survival
+- important fighter falling
+- captain making a decisive move
+- devastating attack
+- unexpected survival
+- strategic turning point
 - final phase
 - decisive finishing sequence
 
-The title must be based on what actually happened.
+The timing must depend on what is actually happening.
 
-Do NOT blindly use example titles.
+The title itself must be ORIGINAL and based on the current situation.
+
+Do NOT blindly reuse example titles.
+
+Do NOT use generic repeated titles such as:
+"THE BATTLE BEGINS"
+"THE FINAL BATTLE"
+"THE POWER OF FRIENDSHIP"
+unless the actual situation genuinely justifies them.
+
+Titles should feel like dramatic anime episode/chapter titles.
+
+Examples of STYLE ONLY:
+"WHEN THE SKY SPLIT OPEN"
+"THE PREDATOR FINDS ITS PREY"
+"A KING'S ANSWER"
+"THE WHEEL TURNS"
+"THE MOMENT EVERYTHING CHANGED"
+"NO ESCAPE FROM THE VOID"
+
+These are examples of style only and MUST NOT be copied automatically.
+
+IMPORTANT TITLE OUTPUT FORMAT:
+
+Whenever you decide that a cinematic chapter title is appropriate, output it on its own line in exactly this format:
+
+[CHAPTER: YOUR ORIGINAL TITLE]
+
+Replace YOUR ORIGINAL TITLE with a dramatic title that specifically reflects what just happened or what is about to happen.
+
+Example:
+[CHAPTER: THE WHEEL TURNS]
+
+Then continue the battle normally.
+
+Do NOT explain the title.
+
+Do NOT add commentary about why you created it.
+
+Do NOT put multiple chapter titles together.
+
+The title must be part of the unfolding battle narrative.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STYLE
@@ -2260,11 +2270,48 @@ window.IC_RENDER_BATTLE = function(text){
 
   for(const line of lines){
 
-    const isTitle=
+    /*
+      PRIMARY CHAPTER FORMAT
+
+      The battle prompt asks the generator to use:
+
+      [CHAPTER: TITLE]
+
+      This is deliberately parsed explicitly so dramatic
+      titles are never dependent on capitalization.
+    */
+
+    const chapterMatch=
+      line.match(/^\[CHAPTER:\s*(.*?)\s*\]$/i);
+
+    /*
+      FALLBACK
+
+      Keep support for traditional ALL-CAPS cinematic titles
+      in case the generator produces one without the marker.
+    */
+
+    const isLegacyTitle=
+      !chapterMatch &&
       /^[A-Z0-9][A-Z0-9 '"’—:!?.,-]{5,80}$/.test(line) &&
       line.length<90;
 
-    if(isTitle){
+    if(chapterMatch){
+
+      const title=
+        chapterMatch[1].trim();
+
+      if(title){
+
+        html+=`
+          <div class="ic-chapter">
+            ${window.IC_ESCAPE(title)}
+          </div>
+        `;
+
+      }
+
+    }else if(isLegacyTitle){
 
       html+=`
         <div class="ic-chapter">
@@ -2451,4 +2498,4 @@ window.IC_RESET = function(){
 
 window.IC_SHOW_MODES();
 
-</script>
+  </script>

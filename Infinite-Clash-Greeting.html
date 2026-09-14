@@ -1,0 +1,2454 @@
+<div id="IC_MAIN">
+
+<style>
+#IC_MAIN{
+  width:100%;
+  max-width:900px;
+  margin:auto;
+  color:#eee;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.ic-panel{
+  background:linear-gradient(145deg,#10131b,#080a10);
+  border:1px solid #303747;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.ic-title{
+  text-align:center;
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:3px;
+  margin-bottom:5px;
+}
+
+.ic-subtitle{
+  text-align:center;
+  color:#8994a8;
+  font-size:13px;
+  letter-spacing:2px;
+  margin-bottom:20px;
+}
+
+.ic-section-title{
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:1px;
+  margin-bottom:12px;
+  color:#dbe3f5;
+}
+
+.ic-mode-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.ic-mode{
+  border:1px solid #343d50;
+  background:#0d1119;
+  border-radius:12px;
+  padding:16px 10px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.ic-mode:hover{
+  border-color:#7182a8;
+  transform:translateY(-2px);
+}
+
+.ic-mode.selected{
+  border-color:#d8a83e;
+  box-shadow:0 0 18px rgba(216,168,62,.18);
+  background:#17140d;
+}
+
+.ic-mode-name{
+  font-size:21px;
+  font-weight:900;
+}
+
+.ic-mode-info{
+  color:#8994a8;
+  font-size:11px;
+  margin-top:5px;
+}
+
+.ic-button{
+  width:100%;
+  border:1px solid #414b60;
+  background:#151a24;
+  color:#fff;
+  border-radius:9px;
+  padding:12px;
+  font-weight:800;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.ic-button:hover{
+  background:#202737;
+}
+
+.ic-button.gold{
+  border-color:#b88b32;
+  background:linear-gradient(135deg,#6e511b,#9d7426);
+}
+
+.ic-button.red{
+  border-color:#873d46;
+  background:#35171c;
+}
+
+.ic-button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.ic-team{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.ic-team.three{
+  grid-template-columns:repeat(3,1fr);
+}
+
+.ic-team.four{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.ic-fighter{
+  position:relative;
+  border:1px solid #303747;
+  border-radius:11px;
+  padding:13px 10px;
+  background:#0d1118;
+  min-height:80px;
+}
+
+.ic-fighter-name{
+  font-weight:800;
+  font-size:14px;
+  padding-right:45px;
+}
+
+.ic-fighter-role{
+  display:inline-block;
+  margin-top:7px;
+  font-size:9px;
+  padding:3px 6px;
+  border-radius:5px;
+  background:#242b38;
+  color:#aeb8cc;
+}
+
+.ic-change{
+  position:absolute;
+  right:7px;
+  top:7px;
+  border:1px solid #48536a;
+  background:#171d28;
+  color:#fff;
+  border-radius:6px;
+  font-size:9px;
+  padding:5px 6px;
+  cursor:pointer;
+}
+
+.ic-change:hover{
+  background:#252d3d;
+}
+
+.ic-change.used{
+  opacity:.3;
+  cursor:not-allowed;
+}
+
+.ic-captain{
+  border:1px solid #b58a35;
+  background:linear-gradient(145deg,#211a0c,#120f09);
+  box-shadow:0 0 20px rgba(181,138,53,.12);
+}
+
+.ic-captain-name{
+  font-weight:900;
+  color:#e3b84f;
+}
+
+.ic-captain-effect{
+  color:#aaa;
+  font-size:11px;
+  margin-top:4px;
+}
+
+.ic-status{
+  text-align:center;
+  padding:14px;
+  color:#9da8bb;
+  font-size:12px;
+}
+
+.ic-error{
+  color:#ff7d88;
+  background:#291319;
+  border:1px solid #68303a;
+  border-radius:10px;
+  padding:12px;
+  margin-top:12px;
+  font-size:12px;
+}
+
+#IC_BATTLE{
+  white-space:normal;
+  line-height:1.65;
+}
+
+.ic-chapter{
+  text-align:center;
+  margin:28px 0 15px;
+  padding:10px 0;
+  color:#e1b64d;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:2px;
+  border-top:1px solid #41351d;
+  border-bottom:1px solid #41351d;
+}
+
+.ic-battle-line{
+  margin:7px 0;
+}
+
+.ic-battle-line.dialogue{
+  color:#d6dcef;
+}
+
+.ic-battle-line.action{
+  color:#f0f0f0;
+}
+
+.ic-battle-line.system{
+  color:#d5aa49;
+  font-weight:800;
+}
+
+@media(max-width:650px){
+  .ic-mode-grid{
+    grid-template-columns:1fr;
+  }
+
+  .ic-team,
+  .ic-team.three,
+  .ic-team.four{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+
+<div class="ic-panel">
+  <div class="ic-title">INFINITE CLASH</div>
+  <div class="ic-subtitle">REAL FIGHTERS · REAL BATTLES · NO PLOT ARMOR</div>
+
+  <div id="IC_SELECTOR"></div>
+</div>
+
+
+<div id="IC_BATTLE"></div>
+
+</div>
+
+
+<script>
+
+window.IC_FIGHTERS = [
+
+"Lucia Heartfilia",
+"Bell Cranel",
+"Rias Gremory",
+"Makoto Misumi",
+"Demonbane / Al Azif",
+"Sailor Cosmos",
+"Lord Genome",
+"God",
+"Sailor Galaxia",
+"Grand Priest",
+"Truth",
+"Mercurius",
+"Reinhard Heydrich",
+"Lambdadelta",
+"Bernkastel",
+"Othinus",
+"Yusuke Urameshi",
+"Jotaro Kujo",
+"Natsu Dragneel",
+"Isaac Netero",
+"Shunsui Kyōraku",
+"Genryūsai Shigekuni Yamamoto",
+"Minato Namikaze",
+"Obito Uchiha",
+"Marshall D. Teach (Blackbeard)",
+"Shanks",
+"Mikoto Misaka",
+"Sasuke Uchiha",
+"Kiss-Shot Acerola-Orion Heart-Under-Blade",
+"Homura Akemi",
+"Simon",
+"Hajime Nagumo",
+"Seiya Ryuuguuin",
+"Pride Royal Ivy",
+"Lugh Tuatha Dé",
+"Ard Meteor",
+"Cain von Silford",
+"Haruto",
+"Yuna",
+"Adele / Mile",
+"Azusa Nakano",
+"Balsa Yonsa",
+"Tanya von Degurechaff",
+"Eternamax Eternatus",
+"Kagome Higurashi",
+"Arceus",
+"Shiroe",
+"Mega Mewtwo Y",
+"Imu",
+"Gol D. Roger",
+"Hao Asakura",
+"Tatsumaki",
+"Akuto Sai",
+"Altair",
+"Veldora Tempest",
+"Milim Nava",
+"Mori Jin",
+"Kurokami Medaka",
+"Rin Okumura",
+"Saber / Artoria Pendragon",
+"Koro-sensei",
+"Kumoko / Shiraori",
+"Kirito",
+"Toji Fushiguro",
+"Rubedo",
+"Shalltear Bloodfallen",
+"Utsuro",
+"D",
+"Aladdin",
+"Dante Zogratis",
+"Yoriichi Tsugikuni",
+"Sinbad",
+"Kumagawa Misogi",
+"Void Shiki",
+"Yogiri Takatou",
+"Kami Tenchi",
+"Hajun",
+"Featherine Augustus Aurora",
+"Osamu Mikumo",
+"Tamaki Kotatsu",
+"Mei Hatsume",
+"Senku Ishigami",
+"Shikamaru Nara",
+"Yami Sukehiro",
+"Yujiro Hanma",
+"Mash Burnedead",
+"Haruyoshi Kuga",
+"Rudeus Greyrat",
+"Tatsuya Shiba",
+"Shin Wolford",
+"Asta",
+"Noelle Silva",
+"Neferpitou",
+"Shino Aburame",
+"Escanor",
+"Subaru Natsuki",
+"Garou",
+"Kurapika",
+"Uryū Ishida",
+"Yoruichi Shihōin",
+"Erza Scarlet",
+"Hisoka Morow",
+"Megumin",
+"Touma Kamijou",
+"Kelvin",
+"Kenpachi Zaraki",
+"Killua Zoldyck",
+"Esdeath",
+"Reze",
+"Shiro",
+"Reinhard van Astrea",
+"Beta",
+"Alpha",
+"Maple",
+"Carrera",
+"Ultima",
+"Testarossa",
+"Delta",
+"Yang Wen-li",
+"Chrollo Lucilfer",
+"Sora",
+"Kisuke Urahara",
+"L Lawliet",
+"Light Yagami",
+"Kiyotaka Ayanokoji",
+"Sōsuke Aizen",
+"Lelouch vi Britannia",
+"Sakura Haruno",
+"Ino Yamanaka",
+"Mansherry",
+"Tia",
+"Shuna",
+"Mimosa Vermillion",
+"Dende",
+"Tsunade",
+"Meliodas",
+"Elizabeth Liones",
+"Giorno Giovanna",
+"Shinra Kusakabe",
+"Mob (Shigeo Kageyama)",
+"Gilgamesh",
+"Kaguya Ōtsutsuki",
+"Accelerator",
+"Anti-Spiral",
+"Beerus",
+"Madara Uchiha",
+"Ichigo Kurosaki",
+"Charmy Pappitson",
+"Orihime Inoue",
+"Michael Demiurgos",
+"Lloyd de Saloum",
+"Loki",
+"Ravana",
+"Fenrir",
+"Quetzalcoatl",
+"Brahma",
+"Gaia",
+"The Lord of Nightmares",
+"Merlin",
+"Zeref Dragneel",
+"Sun Wukong",
+"Wang Ling",
+"Saitama",
+"The Creator",
+"Hercules",
+"Ahura Mazda",
+"Shiva",
+"Nyx",
+"Chaos (Khaos)",
+"Lernaean Hydra",
+"Jörmungandr",
+"Cthulhu",
+"Typhon",
+"Madoka Kaname",
+"Anos Voldigoad",
+"Lina Inverse",
+"Julius Novachrono",
+"Zeno",
+"Usagi Tsukino",
+"Son Goku",
+"Yhwach",
+"Acnologia",
+"Naruto Uzumaki",
+"Haruhi Suzumiya",
+"Avatar Aang",
+"Meruem",
+"Sho Kusakabe",
+"Alucard",
+"Ainz Ooal Gown",
+"Monkey D. Luffy",
+"Ryomen Sukuna",
+"Gojo Satoru",
+"Scáthach",
+"Rimuru Tempest",
+"Zeus",
+"Frieren",
+"Makima",
+"Sung Jinwoo",
+"Guts",
+"Eren Yeager",
+"Izuku Midoriya (Deku)",
+"Kenshin Himura",
+"Shadow",
+"Elisabeth",
+
+/* =========================================================
+   NEW FIGHTERS — BATCH 2
+   ========================================================= */
+
+"Belldandy",
+"Yato",
+"Tet",
+"Mare Bello Fiore",
+"Ruphas Mafahl",
+"Wendy Marvell",
+"Recovery Girl",
+"Kiruya Momochi",
+"Nonon Jakuzure",
+"Holo",
+"Akame",
+
+/* =========================================================
+   NEW FIGHTERS — BATCH 4
+   ========================================================= */
+
+"Kafka Hibino",
+"Denji",
+"Gon Freecss",
+"Inuyasha",
+"Sesshomaru",
+"Mahito",
+"Nezuko Kamado",
+"Muzan Kibutsuji",
+"Broly",
+"Frieza",
+"Kaneki Ken",
+"Zeta",
+"Albedo",
+"Carrot",
+"Renner Theiere Chardelon Ryle Vaiself",
+"Ditto",
+"Ban",
+"Shigaraki Tomura",
+"Yami Yugi",
+"Mahoraga"
+
+];
+
+
+/* =========================================================
+   ROLES
+   Classification affects eligibility only.
+   Rank, rarity and abilities remain Lorebook-defined.
+   ========================================================= */
+
+window.IC_ROLES = {
+
+  HYBRID:[
+    "Makoto Misumi",
+    "Demonbane / Al Azif",
+    "Sailor Cosmos",
+    "Lord Genome",
+    "Grand Priest",
+    "Mercurius",
+    "Othinus",
+    "Homura Akemi",
+    "Hajime Nagumo",
+    "Seiya Ryuuguuin",
+    "Pride Royal Ivy",
+    "Lugh Tuatha Dé",
+    "Ard Meteor",
+    "Cain von Silford",
+    "Haruto",
+    "Yuna",
+    "Adele / Mile",
+    "Kagome Higurashi",
+    "Shiroe",
+    "Mega Mewtwo Y",
+    "Imu",
+    "Hao Asakura",
+    "Akuto Sai",
+    "Altair",
+    "Kurokami Medaka",
+    "Saber / Artoria Pendragon",
+    "Kumoko / Shiraori",
+    "Koro-sensei",
+    "D",
+    "Aladdin",
+    "Sinbad",
+    "Kumagawa Misogi",
+    "Void Shiki",
+    "Yogiri Takatou",
+    "Kami Tenchi",
+    "Featherine Augustus Aurora",
+    "Osamu Mikumo",
+    "Shikamaru Nara",
+    "Yami Sukehiro",
+    "Haruyoshi Kuga",
+    "Rudeus Greyrat",
+    "Tatsuya Shiba",
+    "Asta",
+    "Noelle Silva",
+    "Kurapika",
+    "Erza Scarlet",
+    "Touma Kamijou",
+    "Kelvin",
+    "Shiro",
+    "Beta",
+    "Alpha",
+    "Testarossa",
+    "Kisuke Urahara",
+    "Kiyotaka Ayanokoji",
+    "Sōsuke Aizen",
+    "Lelouch vi Britannia",
+    "Sakura Haruno",
+    "Ino Yamanaka",
+    "Shuna",
+    "Mimosa Vermillion",
+    "Tsunade",
+    "Giorno Giovanna",
+    "Gilgamesh",
+    "Accelerator",
+    "Orihime Inoue",
+    "Michael Demiurgos",
+    "Loki",
+    "Quetzalcoatl",
+    "Brahma",
+    "Gaia",
+    "The Lord of Nightmares",
+    "Merlin",
+    "Sun Wukong",
+    "Wang Ling",
+    "The Creator",
+    "Ahura Mazda",
+    "Nyx",
+    "Chaos (Khaos)",
+    "Madoka Kaname",
+    "Anos Voldigoad",
+    "Julius Novachrono",
+    "Zeno",
+    "Usagi Tsukino",
+    "Haruhi Suzumiya",
+    "Avatar Aang",
+    "Sho Kusakabe",
+    "Scáthach",
+    "Rimuru Tempest",
+    "Zeus",
+    "Makima",
+    "Shadow",
+    "Elisabeth",
+
+    /* BATCH 2 */
+    "Belldandy",
+    "Tet",
+    "Mare Bello Fiore",
+    "Wendy Marvell",
+    "Holo",
+
+    /* BATCH 4 */
+    "Albedo",
+    "Renner Theiere Chardelon Ryle Vaiself",
+    "Ditto",
+    "Yami Yugi"
+  ],
+
+  SUPPORT:[
+    "Shino Aburame",
+    "Subaru Natsuki",
+    "Senku Ishigami",
+    "Mei Hatsume",
+    "Mansherry",
+    "Tia",
+    "Dende",
+    "Charmy Pappitson",
+    "Orihime Inoue",
+    "Osamu Mikumo",
+
+    /* BATCH 2 */
+    "Recovery Girl"
+  ]
+
+};
+
+
+/* =========================================================
+   CAPTAIN EFFECTS
+   ========================================================= */
+
+window.IC_CAPTAIN_EFFECTS = {
+
+"Lucia Heartfilia":"Celestial Spirit Command",
+"Bell Cranel":"Argonaut Formation",
+"Rias Gremory":"Crimson Devil Command",
+"Makoto Misumi":"Mist Town Formation",
+"Demonbane / Al Azif":"Elder God Arsenal",
+"Sailor Cosmos":"Cosmic Guardian Command",
+"Lord Genome":"Spiral Vanguard",
+"God":"Divine Authority",
+"Sailor Galaxia":"Galactic Dominion",
+"Grand Priest":"Grand Attendant Command",
+"Truth":"Gate of Truth",
+"Mercurius":"Eternal Recurrence",
+"Reinhard Heydrich":"Hadou Command",
+"Lambdadelta":"Certainty Dominion",
+"Bernkastel":"Miracle Strategy",
+"Othinus":"Gungnir Command",
+"Yusuke Urameshi":"Spirit Gun Formation",
+"Jotaro Kujo":"Star Platinum Command",
+"Natsu Dragneel":"Dragon Flame Vanguard",
+"Isaac Netero":"Hundred-Type Formation",
+"Shunsui Kyōraku":"Katen Kyōkotsu Command",
+"Genryūsai Shigekuni Yamamoto":"Flame Command",
+"Minato Namikaze":"Flying Thunder God Formation",
+"Obito Uchiha":"Kamui Battlefield",
+"Marshall D. Teach (Blackbeard)":"Darkness Dominion",
+"Shanks":"Conqueror's Command",
+"Mikoto Misaka":"Railgun Network",
+"Sasuke Uchiha":"Sharingan Command",
+"Kiss-Shot Acerola-Orion Heart-Under-Blade":"Vampire Dominion",
+"Homura Akemi":"Time Loop Command",
+"Simon":"Spiral Command",
+"Hajime Nagumo":"Liberator Formation",
+"Seiya Ryuuguuin":"Hyper-Cautious Formation",
+"Pride Royal Ivy":"Tamer's Command",
+"Lugh Tuatha Dé":"Assassin Formation",
+"Ard Meteor":"Arcane Overload",
+"Cain von Silford":"Divine Swordsman Command",
+"Haruto":"Heroic Formation",
+"Yuna":"Black Bear Formation",
+"Adele / Mile":"Ultimate Scholar Command",
+"Azusa Nakano":"Light Music Formation",
+"Balsa Yonsa":"Spear Guardian Formation",
+"Tanya von Degurechaff":"Demon Officer Command",
+"Eternamax Eternatus":"Eternamax Dominion",
+"Kagome Higurashi":"Sacred Arrow Formation",
+"Arceus":"Creation Command",
+"Shiroe":"Round Table Strategy",
+"Mega Mewtwo Y":"Psychic Overdrive",
+"Imu":"King of the World",
+"Gol D. Roger":"Pirate King's Command",
+"Hao Asakura":"Great Spirit Command",
+"Tatsumaki":"Tornado Formation",
+"Akuto Sai":"Demon King's Authority",
+"Altair":"Holopsicon Command",
+"Veldora Tempest":"Storm Dragon Command",
+"Milim Nava":"Dragonoid Dominion",
+"Mori Jin":"Monkey King's Formation",
+"Kurokami Medaka":"The End Formation",
+"Rin Okumura":"Blue Flame Vanguard",
+"Saber / Artoria Pendragon":"King's Formation",
+"Koro-sensei":"Velocity Classroom Command",
+"Kumoko / Shiraori":"Parallel Mind Command",
+"Kirito":"Dual Blades Formation",
+"Toji Fushiguro":"Zero Cursed Energy — Perfect Predator",
+"Rubedo":"Nazarick's Ultimate Vanguard",
+"Shalltear Bloodfallen":"Crimson Valkyrie Command",
+"Utsuro":"Immortal Predator",
+"D":"Vampire Hunter's Instinct",
+"Aladdin":"Magoi Strategic Command",
+"Dante Zogratis":"Gravity Dominion",
+"Yoriichi Tsugikuni":"Sun Breathing Formation",
+"Sinbad":"King's Advent Command",
+"Kumagawa Misogi":"All Fiction Gambit",
+"Void Shiki":"Mystic Eyes of Death",
+"Yogiri Takatou":"Instant Death Command",
+"Kami Tenchi":"Supreme Divine Presence",
+"Hajun":"Taikyoku Dominion",
+"Featherine Augustus Aurora":"Creator's Narrative Authority",
+"Osamu Mikumo":"Tamakoma Tactical Network",
+"Tamaki Kotatsu":"Nekomata Formation",
+"Mei Hatsume":"Baby's Development Lab",
+"Senku Ishigami":"Kingdom of Science",
+"Shikamaru Nara":"Nara Strategic Formation",
+"Yami Sukehiro":"Black Bulls' Limit Break",
+"Yujiro Hanma":"Ogre's Dominance",
+"Mash Burnedead":"Muscle Formation",
+"Haruyoshi Kuga":"Onmyoji Formation",
+"Rudeus Greyrat":"Greyrat Battle Plan",
+"Tatsuya Shiba":"Irregular Command",
+"Shin Wolford":"Wiseman's Formation",
+"Asta":"Anti-Magic Vanguard",
+"Noelle Silva":"Valkyrie Command",
+"Neferpitou":"Royal Guard's Instinct",
+"Shino Aburame":"Insect Network",
+"Escanor":"Sun's Dominance",
+"Subaru Natsuki":"Returning Strategy",
+"Garou":"Monster's Adaptation",
+"Kurapika":"Scarlet Strategy",
+"Uryū Ishida":"Quincy Precision",
+"Yoruichi Shihōin":"Flash God Command",
+"Erza Scarlet":"Fairy Knight Command",
+"Hisoka Morow":"Magician's Trap",
+"Megumin":"Crimson Artillery",
+"Touma Kamijou":"Imagine Breaker Formation",
+"Kelvin":"Summoner's Command",
+"Kenpachi Zaraki":"Kenpachi's Battlefield",
+"Killua Zoldyck":"Godspeed Formation",
+"Esdeath":"Ice General's Command",
+"Reze":"Bombardment Tactics",
+"Shiro":"Blank's Calculation",
+"Reinhard van Astrea":"Sword Saint's Guard",
+"Beta":"Owl's Tactical Eye",
+"Alpha":"Shadow Garden Command",
+"Maple":"Absolute Defense",
+"Carrera":"Yellow Dominance",
+"Ultima":"Violet Dominance",
+"Testarossa":"White Command",
+"Delta":"Feral Vanguard",
+"Yang Wen-li":"Fleet Tactical Command",
+"Chrollo Lucilfer":"Skill Hunter Strategy",
+"Sora":"Blank's Master Plan",
+"Kisuke Urahara":"Urahara Tactical Workshop",
+"L Lawliet":"Deduction Command",
+"Light Yagami":"Kira's Strategic Authority",
+"Kiyotaka Ayanokoji":"White Room Tactical Command",
+"Sōsuke Aizen":"Kyōka Suigetsu Command",
+"Lelouch vi Britannia":"Geass Strategic Command",
+"Sakura Haruno":"Medical Vanguard",
+"Ino Yamanaka":"Mind Transfer Network",
+"Mansherry":"Tontatta Healing Command",
+"Tia":"Arcane Support Command",
+"Shuna":"Holy Magic Formation",
+"Mimosa Vermillion":"Plant Healing Formation",
+"Dende":"Dragon Clan Restoration",
+"Tsunade":"Medical Ninja Command",
+"Meliodas":"Dragon's Sin Formation",
+"Elizabeth Liones":"Goddess Healing Command",
+"Giorno Giovanna":"Golden Experience Command",
+"Shinra Kusakabe":"Severed Command",
+"Mob (Shigeo Kageyama)":"Psychic Restraint Formation",
+"Gilgamesh":"Gate of Babylon Command",
+"Kaguya Ōtsutsuki":"Rabbit Goddess Dominion",
+"Accelerator":"Vector Dominion",
+"Anti-Spiral":"Infinite Labyrinth Command",
+"Beerus":"God of Destruction Authority",
+"Madara Uchiha":"Ten-Tails Dominion",
+"Ichigo Kurosaki":"Substitute Soul Reaper Command",
+"Charmy Pappitson":"Food Magic Formation",
+"Orihime Inoue":"Santen Kesshun Command",
+"Michael Demiurgos":"Heavenly Dominion",
+"Lloyd de Saloum":"Perfect Engineer Formation",
+"Loki":"Trickster Dominion",
+"Ravana":"Demon King Dominion",
+"Fenrir":"Devouring Wolf Command",
+"Quetzalcoatl":"Feathered Serpent Command",
+"Brahma":"Cosmic Creation Command",
+"Gaia":"Earth Mother Formation",
+"The Lord of Nightmares":"Chaos Dream Dominion",
+"Merlin":"Infinity Command",
+"Zeref Dragneel":"Black Wizard Command",
+"Sun Wukong":"Great Sage Formation",
+"Wang Ling":"Absolute Cultivator Command",
+"Saitama":"One Punch Formation",
+"The Creator":"Genesis Authority",
+"Hercules":"Olympian Vanguard",
+"Ahura Mazda":"Supreme Light Command",
+"Shiva":"Cosmic Destruction Command",
+"Nyx":"Primordial Night Command",
+"Chaos (Khaos)":"Primordial Chaos Dominion",
+"Lernaean Hydra":"Regenerative Hydra Formation",
+"Jörmungandr":"World Serpent Command",
+"Cthulhu":"Eldritch Dominion",
+"Typhon":"Monster Storm Command",
+"Madoka Kaname":"Law of Cycles",
+"Anos Voldigoad":"Demon King Formation",
+"Lina Inverse":"Dragon's Tactical Command",
+"Julius Novachrono":"Chrono Command",
+"Zeno":"Omni-King's Authority",
+"Usagi Tsukino":"Silver Crystal Command",
+"Son Goku":"Saiyan Battle Formation",
+"Yhwach":"Almighty Command",
+"Acnologia":"Dragon King's Dominion",
+"Naruto Uzumaki":"Hokage Formation",
+"Haruhi Suzumiya":"Brigade of Reality",
+"Avatar Aang":"Avatar's Harmony",
+"Meruem":"King's Evolution Command",
+"Sho Kusakabe":"Severed Command",
+"Alucard":"Crimson Immortal Command",
+"Ainz Ooal Gown":"Overlord's Dominion",
+"Monkey D. Luffy":"Straw Hat Formation",
+"Ryomen Sukuna":"King of Curses",
+"Gojo Satoru":"Limitless Formation",
+"Scáthach":"Land of Shadows Command",
+"Rimuru Tempest":"Demon Lord Command",
+"Zeus":"Thunder God Authority",
+"Frieren":"Ancient Magic Formation",
+"Makima":"Control Command",
+"Sung Jinwoo":"Shadow Monarch Command",
+"Guts":"Black Swordsman Formation",
+"Eren Yeager":"Founding Titan Command",
+"Izuku Midoriya (Deku)":"One For All Formation",
+"Kenshin Himura":"Hiten Mitsurugi Formation",
+"Shadow":"Shadow Garden Command",
+"Elisabeth":"Royal Demon Command",
+
+/* =========================================================
+   BATCH 2
+   ========================================================= */
+
+"Belldandy":"Goddess's Blessing",
+"Yato":"God of Calamity",
+"Tet":"Deus of Games",
+"Mare Bello Fiore":"Great Forest Dominion",
+"Ruphas Mafahl":"Conqueror's Dominion",
+"Wendy Marvell":"Sky Dragon's Blessing",
+"Recovery Girl":"Recovery Command",
+"Kiruya Momochi":"Calamitous Cat Command",
+"Nonon Jakuzure":"Symphony of Destruction",
+"Holo":"Wise Wolf's Providence",
+"Akame":"Murasame's Execution",
+
+/* =========================================================
+   BATCH 4
+   ========================================================= */
+
+"Kafka Hibino":"Kaiju Vanguard",
+"Denji":"Chainsaw Vanguard",
+"Gon Freecss":"Jajanken Vanguard",
+"Inuyasha":"Demon Fang Vanguard",
+"Sesshomaru":"Demon Lord's Dominion",
+"Mahito":"Soul Manipulation Formation",
+"Nezuko Kamado":"Blood Demon Vanguard",
+"Muzan Kibutsuji":"Demon King Dominion",
+"Broly":"Legendary Saiyan Dominion",
+"Frieza":"Emperor's Tactical Dominion",
+"Kaneki Ken":"One-Eyed King Formation",
+"Zeta":"Beast Fang Formation",
+"Albedo":"Guardian Overseer Command",
+"Carrot":"Electro Vanguard",
+"Renner Theiere Chardelon Ryle Vaiself":"Golden Princess Strategy",
+"Ditto":"Transformative Wildcard",
+"Ban":"Fox Sin Formation",
+"Shigaraki Tomura":"Decay Dominion",
+"Yami Yugi":"Pharaoh's Strategic Draw",
+"Mahoraga":"Eight-Handled Adaptation"
+
+};
+
+
+/* =========================================================
+   INTERNAL STATE
+   ========================================================= */
+
+window.IC_STATE = {
+  mode:null,
+  teamA:[],
+  teamB:[],
+  captainA:null,
+  captainB:null,
+  changesUsed:{},
+  screen:"mode",
+  busy:false
+};
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+window.IC_ROLE = function(name){
+
+  if(window.IC_ROLES.SUPPORT.includes(name))
+    return "SUPPORT";
+
+  if(window.IC_ROLES.HYBRID.includes(name))
+    return "HYBRID";
+
+  return "COMBAT";
+};
+
+
+window.IC_CAPTAIN_EFFECT = function(name){
+  return window.IC_CAPTAIN_EFFECTS[name] || "Lorebook-defined Captain Effect";
+};
+
+
+window.IC_MODE_SIZE = function(){
+  if(window.IC_STATE.mode === "2v2") return 2;
+  if(window.IC_STATE.mode === "3v3") return 3;
+  return 4;
+};
+
+
+window.IC_POOL = function(){
+  return [...window.IC_FIGHTERS];
+};
+
+
+window.IC_RANDOM = function(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+};
+
+
+window.IC_SHUFFLE = function(arr){
+
+  const a=[...arr];
+
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+
+  return a;
+};
+
+
+window.IC_RANDOM_TEAM = function(exclude=[]){
+
+  const size=window.IC_MODE_SIZE();
+
+  let pool=window.IC_POOL().filter(x=>!exclude.includes(x));
+
+  return window.IC_SHUFFLE(pool).slice(0,size);
+};
+
+
+window.IC_RENDER = function(html){
+  document.getElementById("IC_SELECTOR").innerHTML=html;
+};
+
+
+window.IC_ESCAPE = function(str){
+
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+};
+
+
+/* =========================================================
+   MODE SELECTION
+   ========================================================= */
+
+window.IC_START_MODE = function(mode){
+
+  if(window.IC_STATE.busy) return;
+
+  window.IC_STATE.mode=mode;
+  window.IC_STATE.teamA=[];
+  window.IC_STATE.teamB=[];
+  window.IC_STATE.captainA=null;
+  window.IC_STATE.captainB=null;
+  window.IC_STATE.changesUsed={};
+
+  window.IC_BUILD_TEAM_A();
+
+};
+
+
+window.IC_SHOW_MODES = function(){
+
+  window.IC_STATE.screen="mode";
+
+  window.IC_RENDER(`
+
+    <div class="ic-section-title">SELECT BATTLE MODE</div>
+
+    <div class="ic-mode-grid">
+
+      <div class="ic-mode"
+           onclick="window.IC_START_MODE('2v2')">
+
+        <div class="ic-mode-name">2 VS 2</div>
+        <div class="ic-mode-info">
+          4 fighters · simultaneous
+        </div>
+
+      </div>
+
+      <div class="ic-mode"
+           onclick="window.IC_START_MODE('3v3')">
+
+        <div class="ic-mode-name">3 VS 3</div>
+        <div class="ic-mode-info">
+          6 fighters · simultaneous
+        </div>
+
+      </div>
+
+      <div class="ic-mode"
+           onclick="window.IC_START_MODE('4v4')">
+
+        <div class="ic-mode-name">4 VS 4</div>
+        <div class="ic-mode-info">
+          8 fighters · simultaneous
+        </div>
+
+      </div>
+
+    </div>
+
+  `);
+
+};
+
+
+/* =========================================================
+   TEAM A
+   ========================================================= */
+
+window.IC_BUILD_TEAM_A = function(){
+
+  window.IC_STATE.screen="teamA";
+
+  /*
+    Only generate a random team when entering Team A
+    for the first time.
+
+    Re-rendering after a change must NOT reroll
+    the other fighters.
+  */
+  if(!window.IC_STATE.teamA.length)
+    window.IC_STATE.teamA=window.IC_RANDOM_TEAM();
+
+  window.IC_RENDER(`
+
+    <div class="ic-section-title">
+      YOUR TEAM — ${window.IC_STATE.mode.toUpperCase()}
+    </div>
+
+    <div class="ic-status">
+      Your team has been randomly selected.
+      You may change each fighter at most once.
+    </div>
+
+    <div class="ic-team ${window.IC_STATE.teamA.length===3?"three":""} ${window.IC_STATE.teamA.length===4?"four":""}">
+
+      ${window.IC_STATE.teamA.map((name,i)=>window.IC_FIGHTER_CARD(name,"A",i)).join("")}
+
+    </div>
+
+    <button class="ic-button gold"
+      onclick="window.IC_CONFIRM_TEAM_A()">
+      CONFIRM TEAM A
+    </button>
+
+  `);
+
+};
+
+
+window.IC_FIGHTER_CARD = function(name,team,index){
+
+  /*
+    CHANGE usage is tracked by SLOT, not by fighter name.
+
+    This means:
+    - each slot can be changed once
+    - the fighter itself is not globally locked
+    - the replacement does not consume another slot's change
+  */
+  const slotKey=team+":"+index;
+  const used=!!window.IC_STATE.changesUsed[slotKey];
+
+  return `
+
+    <div class="ic-fighter">
+
+      ${
+        team==="A"
+        ? `
+          <button
+            class="ic-change ${used?"used":""}"
+            ${used?"disabled":""}
+            onclick="window.IC_CHANGE_FIGHTER('${team}',${index})">
+            🔄 CHANGE
+          </button>
+        `
+        : ""
+      }
+
+      <div class="ic-fighter-name">
+        ${window.IC_ESCAPE(name)}
+      </div>
+
+      <div class="ic-fighter-role">
+        ${window.IC_ROLE(name)}
+      </div>
+
+    </div>
+
+  `;
+
+};
+
+
+/* =========================================================
+   ONE CHANGE PER SLOT
+   ========================================================= */
+
+window.IC_CHANGE_FIGHTER = function(team,index){
+
+  if(window.IC_STATE.busy) return;
+
+  const arr=team==="A"
+    ? window.IC_STATE.teamA
+    : window.IC_STATE.teamB;
+
+  const old=arr[index];
+
+  const slotKey=team+":"+index;
+
+  /*
+    The restriction belongs to the selected slot,
+    NOT to the fighter occupying that slot.
+  */
+  if(window.IC_STATE.changesUsed[slotKey]) return;
+
+  const forbidden=[
+    ...window.IC_STATE.teamA,
+    ...window.IC_STATE.teamB
+  ];
+
+  const oldIndex=forbidden.indexOf(old);
+
+  if(oldIndex!==-1)
+    forbidden.splice(oldIndex,1);
+
+  const pool=window.IC_POOL().filter(x=>!forbidden.includes(x));
+
+  if(!pool.length) return;
+
+  let replacement=window.IC_RANDOM(pool);
+
+  let safety=0;
+
+  while(replacement===old && safety<50){
+    replacement=window.IC_RANDOM(pool);
+    safety++;
+  }
+
+  arr[index]=replacement;
+
+  /*
+    Only this slot is now used.
+
+    The old fighter and replacement fighter remain
+    completely normal roster members.
+  */
+  window.IC_STATE.changesUsed[slotKey]=true;
+
+  if(team==="A")
+    window.IC_BUILD_TEAM_A();
+  else
+    window.IC_BUILD_TEAM_B();
+
+};
+
+
+/* =========================================================
+   CAPTAIN A
+   ========================================================= */
+
+window.IC_CONFIRM_TEAM_A = function(){
+
+  window.IC_STATE.screen="captainA";
+
+  window.IC_RENDER(`
+
+    <div class="ic-section-title">
+      CHOOSE YOUR CAPTAIN
+    </div>
+
+    <div class="ic-status">
+      Select one fighter from your confirmed team.
+      Their unique Captain Effect activates only while they are Captain.
+    </div>
+
+    <div class="ic-team ${window.IC_STATE.teamA.length===3?"three":""} ${window.IC_STATE.teamA.length===4?"four":""}">
+
+      ${window.IC_STATE.teamA.map((name,i)=>`
+
+        <div class="ic-fighter captain-select"
+             onclick="window.IC_SELECT_CAPTAIN_A(${i})"
+             style="cursor:pointer">
+
+          <div class="ic-fighter-name">
+            ${window.IC_ESCAPE(name)}
+          </div>
+
+          <div class="ic-fighter-role">
+            ${window.IC_ROLE(name)}
+          </div>
+
+          <div class="ic-captain-effect">
+            Captain Effect:
+            ${window.IC_ESCAPE(window.IC_CAPTAIN_EFFECT(name))}
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  `);
+
+};
+
+
+window.IC_SELECT_CAPTAIN_A = async function(index){
+
+  if(window.IC_STATE.busy) return;
+
+  window.IC_STATE.captainA=window.IC_STATE.teamA[index];
+
+  await window.IC_BUILD_TEAM_B();
+
+};
+
+
+/* =========================================================
+   TEAM B — AI CHOOSES ITS OWN TEAM
+   ========================================================= */
+
+window.IC_BUILD_TEAM_B = async function(){
+
+  if(window.IC_STATE.busy) return;
+
+  window.IC_STATE.screen="teamB";
+
+  window.IC_RENDER(`
+
+    <div class="ic-section-title">
+      OPPOSING TEAM
+    </div>
+
+    <div class="ic-status">
+      ⚔ THE OPPOSING AI IS SELECTING ITS OWN TEAM...
+    </div>
+
+  `);
+
+  try{
+
+    const teamB=
+      await window.IC_AI_CHOOSE_TEAM_B();
+
+    window.IC_STATE.teamB=teamB;
+
+    window.IC_RENDER(`
+
+      <div class="ic-section-title">
+        OPPOSING TEAM
+      </div>
+
+      <div class="ic-status">
+        The opposing AI has independently selected its team.
+      </div>
+
+      <div class="ic-team ${window.IC_STATE.teamB.length===3?"three":""} ${window.IC_STATE.teamB.length===4?"four":""}">
+
+        ${window.IC_STATE.teamB.map((name,i)=>window.IC_FIGHTER_CARD(name,"B",i)).join("")}
+
+      </div>
+
+      <button class="ic-button gold"
+        onclick="window.IC_CONFIRM_TEAM_B()">
+        CONTINUE
+      </button>
+
+    `);
+
+  }catch(error){
+
+    console.error("Infinite Clash AI team selection error:",error);
+
+    const message=
+      error?.message ||
+      String(error);
+
+    window.IC_RENDER(`
+
+      <div class="ic-error">
+        ⚠️ OPPOSING TEAM SELECTION FAILED<br><br>
+        ${window.IC_ESCAPE(message)}
+      </div>
+
+      <button class="ic-button red"
+        onclick="window.IC_RESET()">
+        RETURN TO BATTLE SETUP
+      </button>
+
+    `);
+
+  }
+
+};
+
+
+/* =========================================================
+   AI TEAM SELECTION
+   ========================================================= */
+
+window.IC_AI_CHOOSE_TEAM_B = async function(){
+
+  const size=window.IC_MODE_SIZE();
+
+  const available=
+    window.IC_FIGHTERS.filter(
+      fighter=>!window.IC_STATE.teamA.includes(fighter)
+    );
+
+  const prompt=`
+
+You are selecting the opposing team for INFINITE CLASH.
+
+This is NOT the battle itself.
+
+You are the autonomous opposing-team strategist.
+
+The human spectator has already received Team A:
+
+${window.IC_STATE.teamA.map((x,i)=>
+  `${i+1}. ${x} — ${window.IC_ROLE(x)}`
+).join("\n")}
+
+The opposing team must contain exactly ${size} fighters.
+
+Choose the opposing team yourself from the available Infinite Clash roster below.
+
+AVAILABLE FIGHTERS:
+${available.map((x,i)=>
+  `${i+1}. ${x} — ${window.IC_ROLE(x)}`
+).join("\n")}
+
+TEAM SELECTION RULES:
+
+1. Select exactly ${size} DIFFERENT fighters.
+
+2. NEVER select anyone from Team A.
+
+3. You are the opposing AI.
+
+4. Do NOT ask the user to choose.
+
+5. Do NOT simply take the first fighters in the list.
+
+6. Make a strategic team based on:
+   - compatibility
+   - teamwork
+   - complementary abilities
+   - battlefield roles
+   - counters
+   - tactical versatility
+   - ability combinations
+   - likely matchup against Team A
+   - established personalities where relevant
+
+7. Do not assume that the highest-ranked fighters automatically make the best team.
+
+8. Do not create abilities or information that the fighters do not possess.
+
+9. SUPPORT fighters are allowed.
+
+10. HYBRID fighters are allowed.
+
+11. COMBAT fighters are allowed.
+
+12. The opposing team should feel like a deliberate AI strategic selection rather than a random roll.
+
+OUTPUT ONLY A JSON ARRAY.
+
+Example:
+["Fighter A","Fighter B"]
+
+No explanation.
+No markdown.
+No code fence.
+Only the JSON array.
+
+`;
+
+
+  const result=
+    await tavo.generate(
+      prompt,
+      {
+        context:false,
+        timeout:180000
+      }
+    );
+
+  const raw=
+    typeof result==="string"
+      ? result
+      : (result?.text || result?.content || "");
+
+  if(!raw)
+    throw new Error(
+      "The opposing AI returned no team."
+    );
+
+  let parsed;
+
+  try{
+
+    const cleaned=String(raw)
+      .replace(/```json/gi,"")
+      .replace(/```/g,"")
+      .trim();
+
+    parsed=JSON.parse(cleaned);
+
+  }catch(error){
+
+    /*
+      Try to recover a JSON array if the model
+      included a small amount of extra text.
+    */
+
+    const match=String(raw).match(/\[[\s\S]*\]/);
+
+    if(match){
+
+      try{
+        parsed=JSON.parse(match[0]);
+      }catch(e){
+        parsed=null;
+      }
+
+    }
+
+  }
+
+  if(!Array.isArray(parsed))
+    throw new Error(
+      "The opposing AI did not return a valid team."
+    );
+
+  /*
+    Validate that every selected fighter actually exists
+    in the roster and is not already on Team A.
+  */
+
+  const validRoster=new Set(window.IC_FIGHTERS);
+
+  const team=[];
+
+  for(const fighter of parsed){
+
+    if(typeof fighter!=="string")
+      continue;
+
+    if(!validRoster.has(fighter))
+      continue;
+
+    if(window.IC_STATE.teamA.includes(fighter))
+      continue;
+
+    if(team.includes(fighter))
+      continue;
+
+    team.push(fighter);
+
+  }
+
+  if(team.length!==size){
+
+    throw new Error(
+      "The opposing AI selected an invalid team. "+
+      "Expected "+size+" unique fighters but received "+team.length+"."
+    );
+
+  }
+
+  return team;
+
+};
+
+
+/* =========================================================
+   CAPTAIN B — AI CHOOSES
+   ========================================================= */
+
+window.IC_CONFIRM_TEAM_B = function(){
+
+  window.IC_STATE.captainB=window.IC_RANDOM(window.IC_STATE.teamB);
+
+  window.IC_SHOW_FINAL_SETUP();
+
+};
+
+
+/* =========================================================
+   FINAL SETUP
+   ========================================================= */
+
+window.IC_SHOW_FINAL_SETUP = function(){
+
+  window.IC_STATE.screen="final";
+
+  window.IC_RENDER(`
+
+    <div class="ic-section-title">
+      FINAL BATTLE SETUP
+    </div>
+
+    <div class="ic-status">
+      ${window.IC_STATE.mode.toUpperCase()} · ALL FIGHTERS ACTIVE SIMULTANEOUSLY
+    </div>
+
+    <div class="ic-section-title">
+      YOUR TEAM
+    </div>
+
+    <div class="ic-team ${window.IC_STATE.teamA.length===3?"three":""} ${window.IC_STATE.teamA.length===4?"four":""}">
+
+      ${window.IC_STATE.teamA.map(name=>`
+
+        <div class="ic-fighter ${name===window.IC_STATE.captainA?"ic-captain":""}">
+
+          <div class="ic-fighter-name">
+            ${window.IC_ESCAPE(name)}
+          </div>
+
+          <div class="ic-fighter-role">
+            ${window.IC_ROLE(name)}
+          </div>
+
+          ${name===window.IC_STATE.captainA?`
+
+            <div class="ic-captain-name">
+              ★ CAPTAIN
+            </div>
+
+            <div class="ic-captain-effect">
+              ${window.IC_ESCAPE(window.IC_CAPTAIN_EFFECT(name))}
+            </div>
+
+          `:""}
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+
+    <div class="ic-section-title" style="margin-top:20px">
+      OPPOSING TEAM
+    </div>
+
+    <div class="ic-team ${window.IC_STATE.teamB.length===3?"three":""} ${window.IC_STATE.teamB.length===4?"four":""}">
+
+      ${window.IC_STATE.teamB.map(name=>`
+
+        <div class="ic-fighter ${name===window.IC_STATE.captainB?"ic-captain":""}">
+
+          <div class="ic-fighter-name">
+            ${window.IC_ESCAPE(name)}
+          </div>
+
+          <div class="ic-fighter-role">
+            ${window.IC_ROLE(name)}
+          </div>
+
+          ${name===window.IC_STATE.captainB?`
+
+            <div class="ic-captain-name">
+              ★ AI CAPTAIN
+            </div>
+
+            <div class="ic-captain-effect">
+              ${window.IC_ESCAPE(window.IC_CAPTAIN_EFFECT(name))}
+            </div>
+
+          `:""}
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+
+    <button class="ic-button gold"
+      onclick="window.IC_START_BATTLE()">
+      ⚔ START INFINITE CLASH
+    </button>
+
+  `);
+
+};
+
+
+/* =========================================================
+   CENTRAL LOREBOOK
+   ========================================================= */
+
+window.IC_FIND_DATABASE = async function(){
+
+  const exact=await tavo.lorebook.find(
+    "Infinite Clash — Fighter Database",
+    {match:"exact"}
+  );
+
+  if(exact && exact.length)
+    return exact[0];
+
+  const candidates=await tavo.lorebook.find(
+    "Infinite Clash",
+    {match:"contains"}
+  );
+
+  if(!candidates || !candidates.length)
+    return null;
+
+  const preferred=candidates.find(x=>
+    x.name==="Infinite Clash — Fighter Database"
+  );
+
+  return preferred || candidates[0];
+
+};
+
+
+/* =========================================================
+   FIND PARTICIPANT ENTRY
+   ========================================================= */
+
+window.IC_FIND_ENTRY = function(entries,name){
+
+  if(!entries || !entries.length)
+    return null;
+
+  const normalize=s=>
+    String(s||"")
+      .toLowerCase()
+      .replace(/ō/g,"o")
+      .replace(/ū/g,"u")
+      .replace(/ā/g,"a")
+      .replace(/ī/g,"i")
+      .replace(/ē/g,"e")
+      .replace(/ô/g,"o")
+      .replace(/’/g,"'")
+      .replace(/[^a-z0-9]/g,"");
+
+  const target=normalize(name);
+
+  let entry=entries.find(e=>{
+    const n=normalize(e.name);
+    return n===target;
+  });
+
+  if(entry) return entry;
+
+  entry=entries.find(e=>{
+
+    const n=normalize(e.name||"");
+
+    return n.includes(target) || target.includes(n);
+
+  });
+
+  if(entry) return entry;
+
+  entry=entries.find(e=>{
+
+    const keys=[
+      ...(Array.isArray(e.keys)?e.keys:[]),
+      ...(Array.isArray(e.secondaryKeys)?e.secondaryKeys:[])
+    ].map(normalize);
+
+    return keys.includes(target);
+
+  });
+
+  if(entry) return entry;
+
+  entry=entries.find(e=>{
+
+    const content=normalize(e.content||"");
+
+    return content.includes(target);
+
+  });
+
+  return entry || null;
+
+};
+
+
+/* =========================================================
+   LOAD ONLY PARTICIPANT PROFILES
+   ========================================================= */
+
+window.IC_LOAD_PARTICIPANT_PROFILES = async function(){
+
+  const database=await window.IC_FIND_DATABASE();
+
+  if(!database)
+    throw new Error(
+      "Infinite Clash — Fighter Database was not found."
+    );
+
+  const full=await tavo.lorebook.get(database.id);
+
+  if(!full || !Array.isArray(full.entries))
+    throw new Error(
+      "The Infinite Clash Fighter Database could not be read."
+    );
+
+  const participants=[
+    ...window.IC_STATE.teamA,
+    ...window.IC_STATE.teamB
+  ];
+
+  const profiles=[];
+  const missing=[];
+
+  for(const fighter of participants){
+
+    const entry=window.IC_FIND_ENTRY(
+      full.entries,
+      fighter
+    );
+
+    if(!entry){
+
+      missing.push(fighter);
+      continue;
+
+    }
+
+    profiles.push({
+
+      fighter:fighter,
+
+      name:entry.name || fighter,
+
+      content:entry.content || "",
+
+      keys:Array.isArray(entry.keys)
+        ? entry.keys
+        : [],
+
+      secondaryKeys:Array.isArray(entry.secondaryKeys)
+        ? entry.secondaryKeys
+        : []
+
+    });
+
+  }
+
+  if(missing.length){
+
+    throw new Error(
+      "Lorebook verification failed for: "+
+      missing.join(", ")
+    );
+
+  }
+
+  return profiles;
+
+};
+
+
+/* =========================================================
+   PROFILE FORMAT
+   ========================================================= */
+
+window.IC_FORMAT_PROFILES = function(profiles){
+
+  return profiles.map(p=>`
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FIGHTER PROFILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NAME:
+${p.fighter}
+
+LOREBOOK ENTRY:
+${p.name}
+
+KEYS:
+${p.keys.join(", ")}
+
+SECONDARY KEYS:
+${p.secondaryKeys.join(", ")}
+
+PROFILE:
+${p.content}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  `).join("\n");
+
+};
+
+
+/* =========================================================
+   BATTLE PROMPT
+   ========================================================= */
+
+window.IC_BUILD_BATTLE_PROMPT = function(profiles){
+
+  const A=window.IC_STATE.teamA;
+  const B=window.IC_STATE.teamB;
+
+  const captainA=window.IC_STATE.captainA;
+  const captainB=window.IC_STATE.captainB;
+
+  return `
+
+You are the autonomous battle narrator and simulation engine for INFINITE CLASH.
+
+THIS IS A SPECTATOR-ONLY SIMULATION.
+
+The user does NOT control any fighter.
+
+The AI controls EVERY established fighter autonomously.
+
+The AI decides:
+- movement
+- positioning
+- attacks
+- defenses
+- dodges
+- counters
+- tactics
+- target selection
+- teamwork
+- dialogue
+- reactions
+- ability usage
+- transformations
+- retreats
+- sacrifices
+- rescues
+- environmental interaction
+- adaptation
+- stamina management
+- resource management
+- cooldown management
+- injuries
+- finishing attacks
+
+The user must NEVER be asked to choose an attack, target, move, ability or decision.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BATTLE MODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MODE:
+${window.IC_STATE.mode.toUpperCase()}
+
+This is ONE simultaneous team battle.
+
+Every fighter is active at the same time.
+
+There are NO sequential 1v1 fights.
+
+There are NO separate duels unless fighters naturally choose to engage each other during the larger simultaneous battle.
+
+The battle continues until one team has ZERO remaining fighters.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEAM A
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${A.map((x,i)=>`${i+1}. ${x} — ${window.IC_ROLE(x)}`).join("\n")}
+
+CAPTAIN:
+${captainA}
+
+CAPTAIN EFFECT:
+${window.IC_CAPTAIN_EFFECT(captainA)}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEAM B
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${B.map((x,i)=>`${i+1}. ${x} — ${window.IC_ROLE(x)}`).join("\n")}
+
+CAPTAIN:
+${captainB}
+
+CAPTAIN EFFECT:
+${window.IC_CAPTAIN_EFFECT(captainB)}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROLE RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMBAT:
+Primarily direct combatants.
+
+HYBRID:
+Can combine direct combat, special abilities, tactics and support-like actions where appropriate.
+
+SUPPORT:
+Support classification does NOT mean helpless.
+
+Support fighters can directly fight, defend themselves and use their established abilities whenever necessary.
+
+Classification does NOT change:
+- rank
+- rarity
+- canonical abilities
+- limitations
+- personality
+- intelligence
+- combat style
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CAPTAIN RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Each team has exactly ONE Captain.
+
+The Captain is still a normal fighter.
+
+Being Captain does NOT change their identity or classification.
+
+The Captain Effect is active only because that fighter was selected as Captain.
+
+Use the Captain Effect to influence:
+- team coordination
+- battlefield priorities
+- communication
+- formation
+- cooperation
+- morale
+- ability timing
+- target selection
+- strategic adaptation
+
+Do NOT invent arbitrary massive stat multipliers unless the fighter's Lorebook profile explicitly supports such an effect.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CORE RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Use ONLY the established fighters listed above.
+
+2. Treat their Lorebook profiles as authoritative.
+
+3. Respect their canonical abilities and limitations.
+
+4. Do NOT give characters abilities they do not possess.
+
+5. Do NOT remove important limitations.
+
+6. No plot armor.
+
+7. No predetermined winner.
+
+8. Higher rank does NOT guarantee victory.
+
+9. Lower-ranked fighters may defeat higher-ranked fighters when matchup, counters, tactics, environment, timing, teamwork or other legitimate circumstances allow it.
+
+10. Do not force a character to lose simply because they have a lower rank.
+
+11. Do not force a character to win simply because they have a higher rank.
+
+12. Track injuries.
+
+13. Track stamina.
+
+14. Track cooldowns.
+
+15. Track resources.
+
+16. Track transformations and their consequences.
+
+17. Track battlefield damage.
+
+18. Characters should react intelligently to information they actually possess.
+
+19. No omniscience unless the Lorebook explicitly establishes it.
+
+20. Do not give characters knowledge of another fighter's abilities unless they could reasonably know or discover them.
+
+21. Characters may learn and adapt during the fight.
+
+22. Teamwork should feel natural to the personalities and intelligence of the fighters.
+
+23. Characters may cooperate imperfectly if their personalities conflict.
+
+24. Characters may betray, deceive, misdirect or abandon plans when their established personality supports it.
+
+25. Do not make everyone speak constantly.
+
+26. Dialogue should feel like the actual characters.
+
+27. Keep combat readable and cinematic.
+
+28. Avoid endless repetitive attacks.
+
+29. Do not summarize the entire battle immediately.
+
+30. Play the battle as an unfolding anime-style episode.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+POWER INTERACTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Do not use simplistic "stronger character automatically wins" logic.
+
+Abilities must interact according to their actual mechanics.
+
+Counters matter.
+
+Hax interactions matter.
+
+Speed matters.
+
+Range matters.
+
+Information matters.
+
+Battlefield conditions matter.
+
+Stamina matters.
+
+Mental state matters.
+
+Team coordination matters.
+
+Surprise matters.
+
+Timing matters.
+
+Luck may influence events naturally, but never as plot armor.
+
+When two abilities conflict, reason through the actual established mechanics instead of declaring one automatically superior.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CHAPTER TITLE RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use cinematic chapter titles sparingly.
+
+Do NOT create a title every paragraph.
+
+Do NOT use a fixed sequence.
+
+Do NOT use a fixed number of chapters.
+
+A chapter title should appear only when a meaningful narrative beat occurs.
+
+Examples of meaningful beats:
+- first major clash
+- first blood
+- unexpected counter
+- major revelation
+- major transformation
+- battlefield reversal
+- important fighter falls
+- captain makes a decisive move
+- overwhelming ability is revealed
+- impossible survival
+- final phase
+- decisive finishing sequence
+
+The title must be based on what actually happened.
+
+Do NOT blindly use example titles.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STYLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Write like a high-quality anime battle episode.
+
+Use:
+- cinematic action
+- environmental destruction
+- tactical narration
+- character dialogue
+- reactions
+- internal tension where appropriate
+- clear positioning
+- meaningful consequences
+- escalating stakes
+
+Do not make every attack an instant one-shot.
+
+Do not make every attack miss.
+
+Do not make everyone survive everything.
+
+Let the battle naturally determine the winner.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ENDING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The battle ends only when one team has ZERO remaining fighters.
+
+Give the ending proper weight.
+
+Show:
+- the final exchange
+- why the winner prevailed
+- the condition of surviving fighters
+- the defeated fighters' final states where appropriate
+- the battlefield aftermath
+
+Do NOT ask the spectator what should happen next.
+
+Do NOT offer choices.
+
+Do NOT request another action.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESTABLISHED LOREBOOK PROFILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${window.IC_FORMAT_PROFILES(profiles)}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BEGIN BATTLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Start immediately with the battlefield and the first meaningful development.
+
+Do not explain these rules to the spectator.
+
+Do not announce that you are an AI.
+
+Do not mention the prompt.
+
+Do not ask for input.
+
+`;
+
+};
+
+
+/* =========================================================
+   BATTLE CLEANUP
+   ========================================================= */
+
+window.IC_CLEAN_BATTLE = function(text){
+
+  if(!text)
+    return "";
+
+  let t=String(text);
+
+  t=t.replace(/```(?:html|markdown|text)?/gi,"");
+  t=t.replace(/```/g,"");
+
+  t=t.replace(
+    /^\s*(?:Battle Complete|Simulation Complete|What happens next\?|Choose what happens next).*$/gim,
+    ""
+  );
+
+  return t.trim();
+
+};
+
+
+/* =========================================================
+   CINEMATIC RENDER
+   ========================================================= */
+
+window.IC_RENDER_BATTLE = function(text){
+
+  const root=document.getElementById("IC_BATTLE");
+
+  const clean=window.IC_CLEAN_BATTLE(text);
+
+  const lines=clean
+    .split(/\n+/)
+    .map(x=>x.trim())
+    .filter(Boolean);
+
+  let html=`
+    <div class="ic-panel">
+      <div class="ic-title">INFINITE CLASH</div>
+      <div class="ic-subtitle">
+        ${window.IC_STATE.mode.toUpperCase()} · SIMULTANEOUS TEAM BATTLE
+      </div>
+    </div>
+
+    <div class="ic-panel">
+  `;
+
+  for(const line of lines){
+
+    const isTitle=
+      /^[A-Z0-9][A-Z0-9 '"’—:!?.,-]{5,80}$/.test(line) &&
+      line.length<90;
+
+    if(isTitle){
+
+      html+=`
+        <div class="ic-chapter">
+          ${window.IC_ESCAPE(line)}
+        </div>
+      `;
+
+    }else{
+
+      let cls="ic-battle-line";
+
+      if(/^["“].*["”]$/.test(line))
+        cls+=" dialogue";
+
+      if(/^\*/.test(line))
+        cls+=" action";
+
+      html+=`
+        <div class="${cls}">
+          ${window.IC_ESCAPE(line)}
+        </div>
+      `;
+
+    }
+
+  }
+
+  html+=`</div>`;
+
+  root.innerHTML=html;
+
+};
+
+
+/* =========================================================
+   START BATTLE
+   ========================================================= */
+
+window.IC_START_BATTLE = async function(){
+
+  if(window.IC_STATE.busy)
+    return;
+
+  window.IC_STATE.busy=true;
+
+  const selector=document.getElementById("IC_SELECTOR");
+  const battle=document.getElementById("IC_BATTLE");
+
+  selector.innerHTML=`
+    <div class="ic-status">
+      ⚔ VERIFYING PARTICIPANTS AGAINST THE LOREBOOK...
+    </div>
+  `;
+
+  battle.innerHTML="";
+
+  try{
+
+    /*
+      IMPORTANT:
+
+      We retrieve the central Infinite Clash database,
+      extract ONLY the selected fighters,
+      and inject ONLY those profiles into tavo.generate.
+
+      We intentionally do NOT activate the complete Lorebook
+      during generation because that would inject the entire
+      fighter database and create enormous context usage.
+    */
+
+    const profiles=
+      await window.IC_LOAD_PARTICIPANT_PROFILES();
+
+    selector.innerHTML=`
+      <div class="ic-status">
+        ✓ ALL ${profiles.length} PARTICIPANTS VERIFIED<br>
+        Loading battle...
+      </div>
+    `;
+
+    const prompt=
+      window.IC_BUILD_BATTLE_PROMPT(profiles);
+
+    const result=
+      await tavo.generate(
+        prompt,
+        {
+          context:false,
+          timeout:180000
+        }
+      );
+
+    const battleText=
+      typeof result==="string"
+        ? result
+        : (result?.text || result?.content || "");
+
+    if(!battleText)
+      throw new Error(
+        "The battle generator returned no text."
+      );
+
+    const clean=
+      window.IC_CLEAN_BATTLE(battleText);
+
+    /*
+      IMPORTANT:
+
+      Do NOT append the generated battle as a normal
+      assistant message.
+
+      IC_RENDER_BATTLE is the ONLY visible presentation.
+      Appending the same text to the chat would create
+      a duplicate copy of the battle.
+    */
+
+    window.IC_RENDER_BATTLE(clean);
+
+    selector.innerHTML=`
+      <div class="ic-status">
+        ✓ BATTLE COMPLETE
+      </div>
+    `;
+
+  }catch(error){
+
+    console.error("Infinite Clash error:",error);
+
+    const message=
+      error?.message ||
+      String(error);
+
+    selector.innerHTML=`
+      <div class="ic-error">
+        ⚠️ BATTLE BLOCKED<br><br>
+        ${window.IC_ESCAPE(message)}
+      </div>
+
+      <button class="ic-button red"
+        onclick="window.IC_RESET()">
+        RETURN TO BATTLE SETUP
+      </button>
+    `;
+
+  }finally{
+
+    window.IC_STATE.busy=false;
+
+  }
+
+};
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+window.IC_RESET = function(){
+
+  if(window.IC_STATE.busy)
+    return;
+
+  window.IC_STATE={
+    mode:null,
+    teamA:[],
+    teamB:[],
+    captainA:null,
+    captainB:null,
+    changesUsed:{},
+    screen:"mode",
+    busy:false
+  };
+
+  document.getElementById("IC_BATTLE").innerHTML="";
+
+  window.IC_SHOW_MODES();
+
+};
+
+
+/* =========================================================
+   INITIAL SCREEN
+   ========================================================= */
+
+window.IC_SHOW_MODES();
+
+</script>
